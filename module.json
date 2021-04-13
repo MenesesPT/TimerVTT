@@ -1,0 +1,16 @@
+{
+  "name": "timer",
+  "title": "Timer",
+  "description": "A simple timer that works for all the players. Game Masters can start timers from the Basic controls button.",
+  "author": "Meneses",
+  "version": "0.1.0",
+  "minimumCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.7.9",
+  "socket": true,
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "url": "https://github.com/MenesesPT/TimerVTT",
+  "manifest": "https://raw.githubusercontent.com/MenesesPT/TimerVTT/main/module.json",
+  "download": "https://github.com/MenesesPT/TimerVTT/archive/refs/heads/main.zip"
+}

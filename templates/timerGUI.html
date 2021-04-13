@@ -1,0 +1,28 @@
+<form class="flexcol">
+  <div class="form-group">
+    <label for="timerDescription">Description</label>
+    <input type="text" name="timerDescription" value="" placeholder="Optional" maxlength="150">
+  </div>
+  <div class="form-group">
+    <label for="timerDuration" style="min-width: 200px;">Duration (sec)</label>
+    <input type="number" name="timerDuration" value="{{duration}}">
+  </div>
+  <div class="form-group">
+    <label for="timerTick">Enable 10s ticks?</label>
+    <input type="checkbox" name="timerTick" {{#if tick}} checked {{/if}}>
+  </div>
+  <div class="form-group">
+    <label for="timerEnd">Enable end sound?</label>
+    <input type="checkbox" name="timerEnd" {{#if end}} checked {{/if}}>
+  </div>
+  <div class="form-group">
+    <label for="timerPrivate">Private timer?</label>
+    <input type="checkbox" name="timerPrivate" {{#if private}} checked {{/if}}>
+  </div>
+
+  <footer class="sheet-footer flexrow">
+    <button type="submit" name="submit">
+      <i class="fa fa-clock"></i> Start timer
+    </button>
+  </footer>
+</form>
