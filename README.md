@@ -23,7 +23,7 @@ As soon as the timer has expired a notification will appear and the message will
 
 After a few seconds the message will disappear from the _Chat Log_. If you wish to cancel the timer just delete the respective message.
 
-[1]: https://joaomeneses.pt/timerVTT/1.png
-[2]: https://joaomeneses.pt/timerVTT/2.png
-[3]: https://joaomeneses.pt/timerVTT/3.png
-[4]: https://joaomeneses.pt/timerVTT/4.png
+[1]: http://joaomeneses.pt/timerVTT/1.png
+[2]: http://joaomeneses.pt/timerVTT/2.png
+[3]: http://joaomeneses.pt/timerVTT/3.png
+[4]: http://joaomeneses.pt/timerVTT/4.png
