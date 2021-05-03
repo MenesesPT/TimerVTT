@@ -3,7 +3,7 @@ import { TimerGUI } from '../classes/TimerGUI.js';
 import { updateTimer } from './timer.js';
 
 Hooks.on("init", function () {
-  console.log("Loading Timer module...");
+
   initNetwork();
 
   onMessageReceived(MESSAGES.UPDATE_TIMER, ({ id, expire, description }) => {

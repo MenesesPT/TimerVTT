@@ -11,7 +11,7 @@ export class TimerGUI extends FormApplication {
       popOut: true,
       template: `./modules/timer/templates/timerGUI.html`,
       id: 'module-timer-application',
-      title: 'Timers',
+      title: 'Timer',
     });
   }
 
