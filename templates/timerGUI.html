@@ -1,20 +1,31 @@
 <form class="flexcol">
   <div class="form-group">
+    <label for="timerType">Type</label>
+    <select id="timerType" name="timerType" onchange="changeTimerFormVisibility(this.value)">
+      <option value="Down" selected>Count Down</option>
+      <option value="Up">Count Up</option>
+    </select>
+  </div>
+  <div class="form-group">
     <label for="timerDescription">Description</label>
     <input type="text" name="timerDescription" value="" placeholder="Optional" maxlength="150">
   </div>
+
+
   <div class="form-group">
-    <label for="timerDuration" style="min-width: 200px;">Duration (sec)</label>
-    <input type="number" name="timerDuration" value="{{duration}}">
+    <label class="showIfCountdown" for="timerDuration" style="min-width: 200px;">Duration (sec)</label>
+    <input class="showIfCountdown" type="number" name="timerDuration" value="{{duration}}">
   </div>
   <div class="form-group">
-    <label for="timerTick">Enable 10s ticks?</label>
-    <input type="checkbox" name="timerTick" {{#if tick}} checked {{/if}}>
+    <label class="showIfCountdown" for="timerTick">Enable 10s ticks?</label>
+    <input class="showIfCountdown" type="checkbox" name="timerTick" {{#if tick}} checked {{/if}}>
   </div>
   <div class="form-group">
-    <label for="timerEnd">Enable end sound?</label>
-    <input type="checkbox" name="timerEnd" {{#if end}} checked {{/if}}>
+    <label class="showIfCountdown" for="timerEnd">Enable end sound?</label>
+    <input class="showIfCountdown" type="checkbox" name="timerEnd" {{#if end}} checked {{/if}}>
   </div>
+
+
   <div class="form-group">
     <label for="timerPrivate">Private timer?</label>
     <input type="checkbox" name="timerPrivate" {{#if private}} checked {{/if}}>
@@ -26,3 +37,11 @@
     </button>
   </footer>
 </form>
+<script>
+  function changeTimerFormVisibility(type) {
+    if (type == "Up")
+      $(".showIfCountdown").css('display', 'none');
+    else
+      $(".showIfCountdown").css('display', 'block');
+  }
+</script>

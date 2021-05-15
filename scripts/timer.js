@@ -11,7 +11,35 @@ export function updateTimer(id, expire, description) {
   ui.chat.updateMessage(msg, expire <= 0);
 }
 
-export async function createTimer(duration, description, tickSound, endSound, personal) {
+export async function createStopwatch(description = "", personal = false) {
+  let messageData = { content: stopwatchText(0, description) };
+  if (personal) {
+    messageData.whisper = [game.user._id];
+  }
+  let msg = await ChatMessage.create(messageData);
+  msg.timer = 0;
+  msg.description = description;
+
+  let interval = setInterval(() => {
+    //Message no longer exists
+    if (ui?.chat?.collection?.get(msg.id) == null) {
+      clearInterval(interval);
+      return;
+    }
+    //Send updates for players that might join the session while game is paused
+    if (game.paused) {
+      if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description });
+      return;
+    }
+    msg.timer++;
+    msg.data.content = stopwatchText(msg.timer, msg.description);
+
+    if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description });
+    ui.chat.updateMessage(msg, false);
+  }, 1000);
+}
+
+export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false) {
   let messageData = { content: timerText(duration, description) };
   if (personal) {
     messageData.whisper = [game.user._id];
@@ -70,5 +98,14 @@ function timerText(timer, description = "") {
   } else {
     text += `<b style="color:red">Time's Up!</b>`;
   }
+  return text;
+}
+
+function stopwatchText(timer, description = "") {
+  let text = '<p>' + description + '</p>';
+  if (text.length < 8) {
+    text = "";
+  }
+  text += 'Timer: <b>' + new Date(timer * 1000).toISOString().substr(14, 5) + "</b>";
   return text;
 }

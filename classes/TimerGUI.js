@@ -1,4 +1,4 @@
-import { createTimer } from '../scripts/timer.js';
+import { createTimer, createStopwatch } from '../scripts/timer.js';
 
 export class TimerGUI extends FormApplication {
   constructor() {
@@ -31,8 +31,12 @@ export class TimerGUI extends FormApplication {
   async _updateObject(_, formData) {
     if (formData.timerDuration <= 0)
       return ui.notifications.warn("Please insert a duration greater than 0 seconds!");
-    const { timerDuration, timerDescription, timerTick, timerEnd, timerPrivate } = formData;
-    createTimer(timerDuration, timerDescription, timerTick, timerEnd, timerPrivate);
+    console.log(formData);
+    const { timerType, timerDuration, timerDescription, timerTick, timerEnd, timerPrivate } = formData;
+    if (timerType == "Down")
+      createTimer(timerDuration, timerDescription, timerTick, timerEnd, timerPrivate);
+    else
+      createStopwatch(timerDescription, timerPrivate);
   }
 
   static addButton() {
