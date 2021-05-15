@@ -58,7 +58,7 @@ Timer.createTimer(30, "", false, false, true);
 
 //Creates a 10 seconds timer with the description 'Hurry Up!'
 //Note: Plays sounds and isn't private
-Timer.createTimer(30, "Hurry Up!");
+Timer.createTimer(10, "Hurry Up!");
 
 //Create a private stopwatch with description 'Too long?'
 Timer.createStopwatch("Too long?", true);
