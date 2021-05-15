@@ -1,8 +1,8 @@
 import { initNetwork, MESSAGES, onMessageReceived } from './socket.js';
 import { TimerGUI } from '../classes/TimerGUI.js';
-import { updateTimer } from './timer.js';
+import { updateTimer, createTimer, createStopwatch } from './timer.js';
 
-Hooks.on("init", function () {
+Hooks.on("init", async () => {
 
   initNetwork();
 
@@ -15,7 +15,18 @@ Hooks.on("init", function () {
 });
 
 
-Hooks.on("setup", function () {
+Hooks.on("setup", async () => {
   //preload sound
   AudioHelper.play({ src: "./modules/timer/audio/end.wav", autoplay: false }, true);
 });
+
+export function TimerFunctions() {
+  return {
+    createTimer,
+    createStopwatch
+  };
+}
+
+Hooks.on("ready", async () => {
+  window.Timer = TimerFunctions();
+})
