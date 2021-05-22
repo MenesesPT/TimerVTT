@@ -1,12 +1,16 @@
 import { sendMessage, MESSAGES } from './socket.js'
 
-export function updateTimer(id, expire, description) {
+export function updateTimer(id, expire, description, isStopwatch) {
   let msg = ui?.chat?.collection?.get(id);
   if (msg == null)
     return;
-  msg.data.content = timerText(expire, description);
-  if (expire <= 0) {
-    timerExpiredNotification(description);
+  if (isStopwatch) {
+    msg.data.content = stopwatchText(expire, description);
+  } else {
+    msg.data.content = timerText(expire, description);
+    if (expire <= 0) {
+      timerExpiredNotification(description);
+    }
   }
   ui.chat.updateMessage(msg, expire <= 0);
 }
@@ -28,18 +32,22 @@ export async function createStopwatch(description = "", personal = false) {
     }
     //Send updates for players that might join the session while game is paused
     if (game.paused) {
-      if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description });
+      if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
       return;
     }
     msg.timer++;
     msg.data.content = stopwatchText(msg.timer, msg.description);
 
-    if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description });
+    if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
     ui.chat.updateMessage(msg, false);
   }, 1000);
 }
 
 export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false) {
+  if (duration == null) {
+    ui.notifications.error("Duration needs to be set!");
+    return;
+  }
   let messageData = { content: timerText(duration, description) };
   if (personal) {
     messageData.whisper = [game.user._id];
@@ -55,7 +63,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
     }
     //Send updates for players that might join the session while game is paused
     if (game.paused) {
-      if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description });
+      if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
       return;
     }
     msg.timer--;
@@ -75,7 +83,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
       timerExpiredNotification(msg.description);
       setTimeout(() => { if (ui?.chat?.collection?.get(msg.id) != null) msg.delete() }, 15000);
     }
-    if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description });
+    if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
     ui.chat.updateMessage(msg, msg.timer <= 0);
   }, 1000);
 }

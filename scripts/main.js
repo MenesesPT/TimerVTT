@@ -6,8 +6,8 @@ Hooks.on("init", async () => {
 
   initNetwork();
 
-  onMessageReceived(MESSAGES.UPDATE_TIMER, ({ id, expire, description }) => {
-    updateTimer(id, expire, description);
+  onMessageReceived(MESSAGES.UPDATE_TIMER, ({ id, expire, description, stopwatch }) => {
+    updateTimer(id, expire, description, stopwatch);
   });
 
   TimerGUI.addButton();

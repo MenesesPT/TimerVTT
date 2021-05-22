@@ -22,7 +22,7 @@ If the game is unpaused the timer will start to countdown: ![Timer counting down
 
 As soon as the timer has expired a notification will appear and the message will indicate that the timer has expired: ![Timer expired][4].
 
-After a few seconds the message will disappear from the _Chat Log_. If you wish to cancel the timer just delete the respective message.
+After a few seconds(15) the message will disappear from the _Chat Log_. If you wish to cancel the timer just delete the respective message.
 
 ## Creating timers programmatically
 

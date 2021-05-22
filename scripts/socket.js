@@ -53,7 +53,8 @@ export const MESSAGES = {
     dataProperties: [
       'id',
       'expire',
-      'description'
+      'description',
+      'stopwatch'
     ]
   }
 };
