@@ -69,7 +69,7 @@ Timer.createTimer(15, "", true, true, false, '/"Macro Name"');
 Timer.createStopwatch("Too long?", true);
 ```
 
-[1]: http://joaomeneses.pt/timerVTT/1.png
-[2]: http://joaomeneses.pt/timerVTT/2.png
-[3]: http://joaomeneses.pt/timerVTT/3.png
-[4]: http://joaomeneses.pt/timerVTT/4.png
+[1]: https://joaomeneses.pt/timerVTT/1.png
+[2]: https://joaomeneses.pt/timerVTT/2.png
+[3]: https://joaomeneses.pt/timerVTT/3.png
+[4]: https://joaomeneses.pt/timerVTT/4.png
