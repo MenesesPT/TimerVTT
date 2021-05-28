@@ -15,6 +15,7 @@ The timer icon can be found by Game Masters in the _Basic Controls_. It will ope
 - **Enable 10s ticks** - A ticking sound will start playing in the last 10 seconds if enabled;
 - **Enable end sound** - An alarm clock will sound, if enabled, when the timer expires;
 - **Private timer** - If checked the timer will only be visible to you.
+- **End message** - Sends the content in a chat message when the timer expires. If no content is provided no message will be sent. Can be used to run macros if used with [The Furnace (Advanced Macros)](https://foundryvtt.com/packages/furnace)
 
 Once the timer is started a new message will appear in the _Chat Log_: ![Timer start][2].
 
@@ -39,7 +40,7 @@ Timer.createStopwatch();
 You can call these functions with more parameters for the diferent options, these parameters are as follows:
 
 ```javascript
-Timer.createTimer(durationInSeconds, description, tickSound, endSound, privateTimer);
+Timer.createTimer(durationInSeconds, description, tickSound, endSound, privateTimer, endMessage);
 
 Timer.createStopwatch(description, privateTimer);
 ```
@@ -49,6 +50,7 @@ Timer.createStopwatch(description, privateTimer);
 - **tickSound** [Boolean] defaults to _true_;
 - **endSound** [Boolean] defaults to _true_;
 - **privateTimer** [Boolean] defaults to _false_;
+- **endMessage** [String] defaults to empty string ("") which is the same as no message. Can be used to run macros if used with [The Furnace (Advanced Macros)](https://foundryvtt.com/packages/furnace)
 
 ### Examples
 
@@ -59,6 +61,9 @@ Timer.createTimer(30, "", false, false, true);
 //Creates a 10 seconds timer with the description 'Hurry Up!'
 //Note: Plays sounds and isn't private
 Timer.createTimer(10, "Hurry Up!");
+
+//Creates a 15 second timer that runs a macro on expire (requires The Furnace)
+Timer.createTimer(15, "", true, true, false, '/"Macro Name"');
 
 //Create a private stopwatch with description 'Too long?'
 Timer.createStopwatch("Too long?", true);

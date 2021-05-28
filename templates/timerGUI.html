@@ -31,6 +31,12 @@
     <input type="checkbox" name="timerPrivate" {{#if private}} checked {{/if}}>
   </div>
 
+  <div class="form-group">
+    <label class="showIfCountdown" for="timerExpireMessage">End message</label>
+    <input class="showIfCountdown" type="text" name="timerExpireMessage" value=""
+      placeholder="Message to be sent on expire">
+  </div>
+
   <footer class="sheet-footer flexrow">
     <button type="submit" name="submit">
       <i class="fa fa-clock"></i> Start timer

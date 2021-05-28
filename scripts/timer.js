@@ -43,7 +43,7 @@ export async function createStopwatch(description = "", personal = false) {
   }, 1000);
 }
 
-export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false) {
+export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false, timerExpireMessage = "") {
   if (duration == null) {
     ui.notifications.error("Duration needs to be set!");
     return;
@@ -55,7 +55,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
   let msg = await ChatMessage.create(messageData);
   msg.timer = duration;
   msg.description = description;
-  let interval = setInterval(() => {
+  let interval = setInterval(async () => {
     //Message no longer exists
     if (ui?.chat?.collection?.get(msg.id) == null) {
       clearInterval(interval);
@@ -81,6 +81,9 @@ export async function createTimer(duration, description = "", tickSound = true, 
       if (endSound)
         AudioHelper.play({ src: "./modules/timer/audio/end.wav", volume: 0.7, autoplay: true, loop: false }, !personal);
       timerExpiredNotification(msg.description);
+      if (timerExpireMessage.length) {
+        await ChatMessage.create({ content: timerExpireMessage });
+      }
       setTimeout(() => { if (ui?.chat?.collection?.get(msg.id) != null) msg.delete() }, 15000);
     }
     if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
