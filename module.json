@@ -2,10 +2,10 @@
   "name": "timer",
   "title": "Timer",
   "description": "A simple timer that works for all the players. Game Masters can start timers from the Basic controls button.",
-  "author": "Meneses",
-  "version": "0.1.0",
+  "author": "Meneses and TheDvDias",
+  "version": "0.2.0",
   "minimumCoreVersion": "0.7.9",
-  "compatibleCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.8.5",
   "socket": true,
   "esmodules": [
     "scripts/main.js"
