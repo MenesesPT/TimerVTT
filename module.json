@@ -5,7 +5,7 @@
   "author": "Meneses and TheDvDias",
   "version": "0.2.0",
   "minimumCoreVersion": "0.7.9",
-  "compatibleCoreVersion": "0.8.5",
+  "compatibleCoreVersion": "0.8.6",
   "socket": true,
   "esmodules": [
     "scripts/main.js"
