@@ -18,7 +18,8 @@ export class TimerGUI extends FormApplication {
   getData() {
     return {
       duration: 30,
-      tick: true,
+      tick: false,
+	  ticksecond: false,
       end: true,
       private: false
     };
@@ -31,9 +32,9 @@ export class TimerGUI extends FormApplication {
   async _updateObject(_, formData) {
     if (formData.timerDuration <= 0)
       return ui.notifications.warn("Please insert a duration greater than 0 seconds!");
-    const { timerType, timerDuration, timerDescription, timerTick, timerEnd, timerPrivate, timerExpireMessage } = formData;
+    const { timerType, timerDuration, timerDescription, timerTick, timerSecondTick, timerEnd, timerPrivate, timerExpireMessage } = formData;
     if (timerType == "Down")
-      createTimer(timerDuration, timerDescription, timerTick, timerEnd, timerPrivate, timerExpireMessage);
+      createTimer(timerDuration, timerDescription, timerTick, timerSecondTick, timerEnd, timerPrivate, timerExpireMessage);
     else
       createStopwatch(timerDescription, timerPrivate);
   }

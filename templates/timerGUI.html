@@ -17,8 +17,12 @@
     <input class="showIfCountdown" type="number" name="timerDuration" value="{{duration}}">
   </div>
   <div class="form-group">
-    <label class="showIfCountdown" for="timerTick">Enable 10s ticks?</label>
-    <input class="showIfCountdown" type="checkbox" name="timerTick" {{#if tick}} checked {{/if}}>
+    <label class="showTimerTick" for="timerTick">Enable 10s ticks?</label>
+    <input class="showTimerTick" type="checkbox" id="timertick0" name="timerTick" onClick="unchecktickingsound(this)" {{#if tick}} checked {{/if}}>
+  </div>
+    <div class="form-group">
+    <label class="showTimerTick" for="timerSecondTick">Enable every second tick?</label>
+    <input class="showTimerTick" type="checkbox" id="timertick1" name="timerSecondTick" onClick="unchecktickingsound(this)" {{#if ticksecond}} checked {{/if}}>
   </div>
   <div class="form-group">
     <label class="showIfCountdown" for="timerEnd">Enable end sound?</label>
@@ -50,4 +54,22 @@
     else
       $(".showIfCountdown").css('display', 'block');
   }
+  function unchecktickingsound(obj){
+	var checkname = document.getElementsByClassName("showTimerTick");
+	var checked = document.getElementById(obj.id);
+	if (checked.checked) {
+		for (var i = 0; i < checkname.length; i++) {
+			if (!checkname[i].checked){
+				checkname[i].disabled = true;
+			} else {
+				checkname[i].disabled = false;
+				}
+			}
+		} else {
+			for (var i = 0; i < checkname.length; i++) {
+			checkname[i].disabled = false;
+			}
+		}
+	}
+
 </script>

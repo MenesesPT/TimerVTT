@@ -43,7 +43,7 @@ export async function createStopwatch(description = "", personal = false) {
   }, 1000);
 }
 
-export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false, timerExpireMessage = "") {
+export async function createTimer(duration, description = "", tickSound = false, ticksecondsound = false, endSound = true, personal = false, timerExpireMessage = "") {
   if (duration == null) {
     ui.notifications.error("Duration needs to be set!");
     return;
@@ -68,8 +68,15 @@ export async function createTimer(duration, description = "", tickSound = true, 
     }
     msg.timer--;
     msg.data.content = timerText(msg.timer, msg.description);
+	
+	if (tickSound && msg.timer <= 10 && msg.timer > 0) {
+      AudioHelper.play({
+        src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
+        volume: 1.0, autoplay: true, loop: false
+      }, !personal);
+    }
 
-    if (tickSound && msg.timer <= 10 && msg.timer > 0) {
+    if (ticksecondsound && msg.timer <= duration && msg.timer > 0) {
       AudioHelper.play({
         src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
         volume: 1.0, autoplay: true, loop: false
