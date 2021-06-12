@@ -16,10 +16,10 @@ export class TimerGUI extends FormApplication {
   }
 
   getData() {
+    //Todo: Get data stored from prev use
     return {
       duration: 30,
-      tick: false,
-	  ticksecond: false,
+      tick: true, //Fix: Not in use
       end: true,
       private: false
     };
@@ -32,11 +32,18 @@ export class TimerGUI extends FormApplication {
   async _updateObject(_, formData) {
     if (formData.timerDuration <= 0)
       return ui.notifications.warn("Please insert a duration greater than 0 seconds!");
-    const { timerType, timerDuration, timerDescription, timerTick, timerSecondTick, timerEnd, timerPrivate, timerExpireMessage } = formData;
+    const { timerType, timerDuration, timerDescription, timerTick, timerEnd, timerPrivate, timerExpireMessage } = formData;
+    let parsedTimerTick = true;
+    if (timerTick.isNumeric()) {
+      parsedTimerTick = parseInt(timerTick);
+    } else if (timerTick === "false") {
+      parsedTimerTick = false;
+    }
+    //Todo: Store options for next use
     if (timerType == "Down")
-      createTimer(timerDuration, timerDescription, timerTick, timerSecondTick, timerEnd, timerPrivate, timerExpireMessage);
+      createTimer(timerDuration, timerDescription, parsedTimerTick, timerEnd, timerPrivate, timerExpireMessage);
     else
-      createStopwatch(timerDescription, timerPrivate);
+      createStopwatch(timerDescription, timerPrivate, timerTick === "true");
   }
 
   static addButton() {
