@@ -34,7 +34,7 @@ export class TimerGUI extends FormApplication {
       return ui.notifications.warn("Please insert a duration greater than 0 seconds!");
     const { timerType, timerDuration, timerDescription, timerTick, timerEnd, timerPrivate, timerExpireMessage } = formData;
     let parsedTimerTick = true;
-    if (timerTick.isNumeric()) {
+    if (typeof timerTick == 'number') {
       parsedTimerTick = parseInt(timerTick);
     } else if (timerTick === "false") {
       parsedTimerTick = false;
@@ -59,4 +59,3 @@ export class TimerGUI extends FormApplication {
     });
   }
 }
-
