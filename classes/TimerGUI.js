@@ -29,12 +29,16 @@ export class TimerGUI extends FormApplication {
     super.activateListeners(html);
   }
 
+  static isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
   async _updateObject(_, formData) {
     if (formData.timerDuration <= 0)
       return ui.notifications.warn("Please insert a duration greater than 0 seconds!");
     const { timerType, timerDuration, timerDescription, timerTick, timerEnd, timerPrivate, timerExpireMessage } = formData;
     let parsedTimerTick = true;
-    if (typeof timerTick == 'number') {
+    if (TimerGUI.isNumeric(timerTick)) {
       parsedTimerTick = parseInt(timerTick);
     } else if (timerTick === "false") {
       parsedTimerTick = false;
@@ -59,3 +63,4 @@ export class TimerGUI extends FormApplication {
     });
   }
 }
+
