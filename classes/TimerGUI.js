@@ -47,7 +47,7 @@ export class TimerGUI extends FormApplication {
     if (timerType == "Down")
       createTimer(timerDuration, timerDescription, parsedTimerTick, timerEnd, timerPrivate, timerExpireMessage);
     else
-      createStopwatch(timerDescription, timerPrivate, timerTick === "true");
+      createStopwatch(timerDescription, timerTick === "true", timerPrivate);
   }
 
   static addButton() {

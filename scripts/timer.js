@@ -15,7 +15,7 @@ export function updateTimer(id, expire, description, isStopwatch) {
   ui.chat.updateMessage(msg, expire <= 0);
 }
 
-export async function createStopwatch(description = "", personal = false, tickSound = false) {
+export async function createStopwatch(description = "", tickSound = false, personal = false) {
   let messageData = { content: stopwatchText(0, description) };
   if (personal) {
     messageData.whisper = [game.user._id];
