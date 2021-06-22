@@ -15,7 +15,7 @@ export function updateTimer(id, expire, description, isStopwatch) {
   ui.chat.updateMessage(msg, expire <= 0);
 }
 
-export async function createStopwatch(description = "", personal = false) {
+export async function createStopwatch(description = "", tickSound = false, personal = false) {
   let messageData = { content: stopwatchText(0, description) };
   if (personal) {
     messageData.whisper = [game.user._id];
@@ -37,6 +37,13 @@ export async function createStopwatch(description = "", personal = false) {
     }
     msg.timer++;
     msg.data.content = stopwatchText(msg.timer, msg.description);
+
+    if (tickSound === true) {
+      AudioHelper.play({
+        src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
+        volume: 1.0, autoplay: true, loop: false
+      }, !personal);
+    }
 
     if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
     ui.chat.updateMessage(msg, false);
@@ -69,7 +76,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
     msg.timer--;
     msg.data.content = timerText(msg.timer, msg.description);
 
-    if (tickSound && msg.timer <= 10 && msg.timer > 0) {
+    if (tickSound === true || Number.isInteger(tickSound) && msg.timer <= tickSound && msg.timer > 0) {
       AudioHelper.play({
         src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
         volume: 1.0, autoplay: true, loop: false

@@ -17,8 +17,12 @@
     <input class="showIfCountdown" type="number" name="timerDuration" value="{{duration}}">
   </div>
   <div class="form-group">
-    <label class="showIfCountdown" for="timerTick">Enable 10s ticks?</label>
-    <input class="showIfCountdown" type="checkbox" name="timerTick" {{#if tick}} checked {{/if}}>
+    <label for="timerTick">Enable ticks?</label>
+    <select id="timerTick" name="timerTick">
+      <option value="true">Enabled</option>
+      <option value="10" id="timerTickLast10" selected>Last 10s</option>
+      <option value="false">Disabled</option>
+    </select>
   </div>
   <div class="form-group">
     <label class="showIfCountdown" for="timerEnd">Enable end sound?</label>
@@ -45,9 +49,19 @@
 </form>
 <script>
   function changeTimerFormVisibility(type) {
-    if (type == "Up")
+    if (type == "Up") {
       $(".showIfCountdown").css('display', 'none');
-    else
+      $('#timerTickLast10').attr('disabled', true);
+      let timerTick = $('#timerTick');
+      let value = timerTick.val();
+      if (value === null || value === "last10") {
+        timerTick.val("true");
+      }
+    } else {
       $(".showIfCountdown").css('display', 'block');
+      $('#timerTickLast10').attr('disabled', false);
+    }
   }
+
+
 </script>
