@@ -89,7 +89,11 @@ export async function createTimer(duration, description = "", tickSound = true, 
         AudioHelper.play({ src: "./modules/timer/audio/end.wav", volume: 0.7, autoplay: true, loop: false }, !personal);
       timerExpiredNotification(msg.description);
       if (timerExpireMessage.length) {
-        await ChatMessage.create({ content: timerExpireMessage });
+        let expireMessage = { content: timerExpireMessage };
+        if (personal) {
+          expireMessage.whisper = [game.user._id];
+        }
+        await ChatMessage.create(expireMessage);
       }
       setTimeout(() => { if (ui?.chat?.collection?.get(msg.id) != null) msg.delete() }, 15000);
     }
