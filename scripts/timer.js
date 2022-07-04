@@ -15,7 +15,7 @@ export function updateTimer(id, expire, description, isStopwatch) {
   ui.chat.updateMessage(msg, expire <= 0);
 }
 
-export async function createStopwatch(description = "", tickSound = false, personal = false) {
+export async function createStopwatch(description = "", tickSound = false, personal = false, ignorePause = false) {
   let messageData = { content: stopwatchText(0, description) };
   if (personal) {
     messageData.whisper = [game.user._id];
@@ -31,7 +31,7 @@ export async function createStopwatch(description = "", tickSound = false, perso
       return;
     }
     //Send updates for players that might join the session while game is paused
-    if (game.paused) {
+    if (!ignorePause && game.paused) {
       if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
       return;
     }
@@ -50,7 +50,7 @@ export async function createStopwatch(description = "", tickSound = false, perso
   }, 1000);
 }
 
-export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false, timerExpireMessage = "") {
+export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false, timerExpireMessage = "", ignorePause = false) {
   if (duration == null) {
     ui.notifications.error("Duration needs to be set!");
     return;
@@ -69,7 +69,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
       return;
     }
     //Send updates for players that might join the session while game is paused
-    if (game.paused) {
+    if (!ignorePause && game.paused) {
       if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
       return;
     }

@@ -34,6 +34,10 @@
     <label for="timerPrivate">Private timer?</label>
     <input type="checkbox" name="timerPrivate" {{#if private}} checked {{/if}}>
   </div>
+  <div class="form-group">
+    <label for="ignorePause">Ignore game pause?</label>
+    <input type="checkbox" name="ignorePause" {{#if ignorePause}} checked {{/if}}>
+  </div>
 
   <div class="form-group">
     <label class="showIfCountdown" for="timerExpireMessage">End message</label>

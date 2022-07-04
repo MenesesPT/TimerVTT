@@ -15,6 +15,7 @@ The timer icon can be found by Game Masters in the _Basic Controls_. It will ope
 - **Enable ticks** - A ticking sound will play if enabled;
 - **Enable end sound** - An alarm clock will sound, if enabled, when the timer expires;
 - **Private timer** - If checked the timer will only be visible to you.
+- **Ignore game pause** - If checked the timer will not pause with the game, and will remain to count.
 - **End message** - Sends the content in a chat message when the timer expires. If no content is provided no message will be sent. Can be used to run macros if used with [The Furnace (Advanced Macros)](https://foundryvtt.com/packages/furnace)
 
 Once the timer is started a new message will appear in the _Chat Log_: ![Timer start][2].
@@ -40,19 +41,28 @@ Timer.createStopwatch();
 You can call these functions with more parameters for the diferent options, these parameters are as follows:
 
 ```javascript
-Timer.createTimer(durationInSeconds, description, tickSound, endSound, privateTimer, endMessage);
+Timer.createTimer(
+  durationInSeconds,
+  description,
+  tickSound,
+  endSound,
+  privateTimer,
+  endMessage,
+  ignorePause
+);
 
-Timer.createStopwatch(description, tickSound, privateTimer)
+Timer.createStopwatch(description, tickSound, privateTimer, ignorePause);
 ```
 
-Name | Type | Description
-------- | ------ | -------
-**durationInSeconds** | [Integer] | Duration of the timer in seconds 
-**description** | [String] | defaults to empty string ("") which is the same as no description
-**tickSound** | [Boolean]/[Integer] | Plays tick sound on the last 10 seconds if set to _true_; Doesn't play if set to _false_; Plays sound in the last *tickSound* [Integer] seconds if type is an Integer (defaults to _true_ if timer, _false_ if it is stopwatch)
-**endSound** | [Boolean] | Plays sound on timer expire (defaults to _true_)
-**privateTimer** | [Boolean] | Defines if the timer is not visible to other players (defaults to _false_)
-**endMessage** | [String] | Adds a message to the chat on timer expire. Defaults to empty string ("") which is the same as no message. Can be used to run macros if used with [The Furnace (Advanced Macros)](https://foundryvtt.com/packages/furnace)
+| Name                  | Type                | Description                                                                                                                                                                                                                     |
+| --------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **durationInSeconds** | [Integer]           | Duration of the timer in seconds                                                                                                                                                                                                |
+| **description**       | [String]            | defaults to empty string ("") which is the same as no description                                                                                                                                                               |
+| **tickSound**         | [Boolean]/[Integer] | Plays tick sound on the last 10 seconds if set to _true_; Doesn't play if set to _false_; Plays sound in the last _tickSound_ [Integer] seconds if type is an Integer (defaults to _true_ if timer, _false_ if it is stopwatch) |
+| **endSound**          | [Boolean]           | Plays sound on timer expire (defaults to _true_)                                                                                                                                                                                |
+| **privateTimer**      | [Boolean]           | Defines if the timer is not visible to other players (defaults to _false_)                                                                                                                                                      |
+| **endMessage**        | [String]            | Adds a message to the chat on timer expire. Defaults to empty string ("") which is the same as no message. Can be used to run macros if used with [The Furnace (Advanced Macros)](https://foundryvtt.com/packages/furnace)      |
+| **ignorePause**       | [Boolean]           | Defines if the timer should pause with the game (defaults to _false_)                                                                                                                                                           |
 
 ### Examples
 
