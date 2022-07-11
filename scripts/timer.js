@@ -17,7 +17,9 @@ export function updateTimer(id, expire, description, isStopwatch) {
 
 export async function createStopwatch(description = "", tickSound = false, personal = false, ignorePause = false) {
   let messageData = { content: stopwatchText(0, description) };
-  if (personal) {
+  if (personal === 'true') personal = true;
+  else if (personal === 'false') personal = false;
+  if (personal != false) {
     messageData.whisper = [game.user._id];
   }
   let msg = await ChatMessage.create(messageData);
@@ -32,7 +34,7 @@ export async function createStopwatch(description = "", tickSound = false, perso
     }
     //Send updates for players that might join the session while game is paused
     if (!ignorePause && game.paused) {
-      if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
+      if (personal == false) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
       return;
     }
     msg.timer++;
@@ -42,10 +44,10 @@ export async function createStopwatch(description = "", tickSound = false, perso
       AudioHelper.play({
         src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
         volume: 1.0, autoplay: true, loop: false
-      }, !personal);
+      }, personal == false || personal == 'sound');
     }
 
-    if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
+    if (personal == false) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
     ui.chat.updateMessage(msg, false);
   }, 1000);
 }
@@ -56,7 +58,9 @@ export async function createTimer(duration, description = "", tickSound = true, 
     return;
   }
   let messageData = { content: timerText(duration, description) };
-  if (personal) {
+  if (personal === 'true') personal = true;
+  else if (personal === 'false') personal = false;
+  if (personal != false) {
     messageData.whisper = [game.user._id];
   }
   let msg = await ChatMessage.create(messageData);
@@ -70,7 +74,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
     }
     //Send updates for players that might join the session while game is paused
     if (!ignorePause && game.paused) {
-      if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
+      if (personal == false) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
       return;
     }
     msg.timer--;
@@ -80,24 +84,24 @@ export async function createTimer(duration, description = "", tickSound = true, 
       AudioHelper.play({
         src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
         volume: 1.0, autoplay: true, loop: false
-      }, !personal);
+      }, personal == false || personal == 'sound');
     }
 
     if (msg.timer <= 0) {
       clearInterval(interval);
       if (endSound)
-        AudioHelper.play({ src: "./modules/timer/audio/end.wav", volume: 0.7, autoplay: true, loop: false }, !personal);
+        AudioHelper.play({ src: "./modules/timer/audio/end.wav", volume: 0.7, autoplay: true, loop: false }, personal == false || personal == 'sound');
       timerExpiredNotification(msg.description);
       if (timerExpireMessage.length) {
         let expireMessage = { content: timerExpireMessage };
-        if (personal) {
+        if (personal == true) {
           expireMessage.whisper = [game.user._id];
         }
         await ChatMessage.create(expireMessage);
       }
       setTimeout(() => { if (ui?.chat?.collection?.get(msg.id) != null) msg.delete() }, 15000);
     }
-    if (!personal) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
+    if (personal == false) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
     ui.chat.updateMessage(msg, msg.timer <= 0);
   }, 1000);
 }

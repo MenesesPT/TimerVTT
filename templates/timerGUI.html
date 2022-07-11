@@ -32,7 +32,11 @@
 
   <div class="form-group">
     <label for="timerPrivate">Private timer?</label>
-    <input type="checkbox" name="timerPrivate" {{#if private}} checked {{/if}}>
+    <select id="timerPrivate" name="timerPrivate">
+      <option value="true" {{#if private}} selected {{/if}}>Private</option>
+      <option value="sound">Public sound</option>
+      <option value="false" {{#unless private}} selected {{/unless}}>Public time and sound</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="ignorePause">Ignore game pause?</label>
