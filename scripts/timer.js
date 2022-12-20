@@ -5,9 +5,9 @@ export function updateTimer(id, expire, description, isStopwatch) {
   if (msg == null)
     return;
   if (isStopwatch) {
-    msg.data.content = stopwatchText(expire, description);
+    msg.content = stopwatchText(expire, description);
   } else {
-    msg.data.content = timerText(expire, description);
+    msg.content = timerText(expire, description);
     if (expire <= 0) {
       timerExpiredNotification(description);
     }
@@ -38,7 +38,7 @@ export async function createStopwatch(description = "", tickSound = false, perso
       return;
     }
     msg.timer++;
-    msg.data.content = stopwatchText(msg.timer, msg.description);
+    msg.content = stopwatchText(msg.timer, msg.description);
 
     if (tickSound === true) {
       AudioHelper.play({
@@ -78,7 +78,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
       return;
     }
     msg.timer--;
-    msg.data.content = timerText(msg.timer, msg.description);
+    msg.content = timerText(msg.timer, msg.description);
 
     if (tickSound === true || Number.isInteger(tickSound) && msg.timer <= tickSound && msg.timer > 0) {
       AudioHelper.play({
