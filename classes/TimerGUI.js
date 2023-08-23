@@ -59,7 +59,7 @@ export class TimerGUI extends FormApplication {
         icon: "fas fa-clock",
         button: true,
         onClick: () => new TimerGUI().render(true),
-        visible: game.user.isGM
+        visible: game.user.isGM || game.user.isTrusted
       })
     });
   }

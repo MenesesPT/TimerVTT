@@ -23,8 +23,10 @@ export async function createStopwatch(description = "", tickSound = false, perso
     messageData.whisper = [game.user._id];
   }
   let msg = await ChatMessage.create(messageData);
+  msg.content = stopwatchText(0, description, msg.id);
   msg.timer = 0;
   msg.description = description;
+  setTimeout(() => ui.chat.updateMessage(msg, false), 50);
 
   let interval = setInterval(() => {
     //Message no longer exists
@@ -38,7 +40,7 @@ export async function createStopwatch(description = "", tickSound = false, perso
       return;
     }
     msg.timer++;
-    msg.content = stopwatchText(msg.timer, msg.description);
+    msg.content = stopwatchText(msg.timer, msg.description, msg.id);
 
     if (tickSound === true) {
       AudioHelper.play({
@@ -50,6 +52,18 @@ export async function createStopwatch(description = "", tickSound = false, perso
     if (personal == false) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: true });
     ui.chat.updateMessage(msg, false);
   }, 1000);
+  if (game.user.isGM || game.user.isTrusted) {
+    $(document).on('click', '.timer_stop' + msg.id, () => {
+      clearInterval(interval);
+      const parts = msg.content.split('<button style="font-size: 12px;height: 24px;line-height: 20px;margin: 2px 0;background: rgba(0, 0, 0, 0.1);  border: 2px groove #eeede0;" class="timer_stop' + msg.id + '">Stop</button>');
+      msg.content = parts[0] + parts[1];
+      ui.chat.updateMessage(msg, false);
+    });
+    $(document).on('click', '.timer_delete' + msg.id, () => {
+      clearInterval(interval);
+      setTimeout(() => msg.delete(), 100);
+    });
+  }
 }
 
 export async function createTimer(duration, description = "", tickSound = true, endSound = true, personal = false, timerExpireMessage = "", ignorePause = false) {
@@ -64,8 +78,10 @@ export async function createTimer(duration, description = "", tickSound = true, 
     messageData.whisper = [game.user._id];
   }
   let msg = await ChatMessage.create(messageData);
+  msg.content = timerText(duration, description, msg.id);
   msg.timer = duration;
   msg.description = description;
+  setTimeout(() => ui.chat.updateMessage(msg, false), 50);
   let interval = setInterval(async () => {
     //Message no longer exists
     if (ui?.chat?.collection?.get(msg.id) == null) {
@@ -78,7 +94,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
       return;
     }
     msg.timer--;
-    msg.content = timerText(msg.timer, msg.description);
+    msg.content = timerText(msg.timer, msg.description, msg.id);
 
     if (tickSound === true || Number.isInteger(tickSound) && msg.timer <= tickSound && msg.timer > 0) {
       AudioHelper.play({
@@ -104,6 +120,18 @@ export async function createTimer(duration, description = "", tickSound = true, 
     if (personal == false) sendMessage(MESSAGES.UPDATE_TIMER, { id: msg.id, expire: msg.timer, description: msg.description, stopwatch: false });
     ui.chat.updateMessage(msg, msg.timer <= 0);
   }, 1000);
+  if (game.user.isGM || game.user.isTrusted) {
+    $(document).on('click', '.timer_stop' + msg.id, () => {
+      clearInterval(interval);
+      const parts = msg.content.split('<button style="font-size: 12px;height: 24px;line-height: 20px;margin: 2px 0;background: rgba(0, 0, 0, 0.1);  border: 2px groove #eeede0;" class="timer_stop' + msg.id + '">Stop</button>');
+      msg.content = parts[0] + parts[1];
+      ui.chat.updateMessage(msg, false);
+    });
+    $(document).on('click', '.timer_delete' + msg.id, () => {
+      clearInterval(interval);
+      setTimeout(() => msg.delete(), 100);
+    });
+  }
 }
 
 function timerExpiredNotification(description) {
@@ -114,8 +142,8 @@ function timerExpiredNotification(description) {
   ui.notifications.info(text);
 }
 
-function timerText(timer, description = "") {
-  let text = '<p>' + description + '</p>';
+function timerText(timer, description = "", id = '') {
+  let text = '<div><p>' + description + '</p>';
   if (text.length < 8) {
     text = "";
   }
@@ -124,14 +152,18 @@ function timerText(timer, description = "") {
   } else {
     text += `<b style="color:red">Time's Up!</b>`;
   }
+  if (game.user.isGM || game.user.isTrusted) text += '<hr><button style="font-size: 12px;height: 24px;line-height: 20px;margin: 2px 0;background: rgba(0, 0, 0, 0.1);  border: 2px groove #eeede0;" class="timer_stop' + id + '">Stop</button><button style="font-size: 12px;height: 24px;line-height: 20px;margin: 2px 0;background: rgba(0, 0, 0, 0.1);  border: 2px groove #eeede0;" class="timer_delete' + id + '">Delete</button>';
+  text += "</div>";
   return text;
 }
 
-function stopwatchText(timer, description = "") {
-  let text = '<p>' + description + '</p>';
+function stopwatchText(timer, description = "", id = '') {
+  let text = '<div><p>' + description + '</p>';
   if (text.length < 8) {
     text = "";
   }
   text += 'Timer: <b>' + new Date(timer * 1000).toISOString().substr(14, 5) + "</b>";
+  if (game.user.isGM || game.user.isTrusted) text += '<hr><button style="font-size: 12px;height: 24px;line-height: 20px;margin: 2px 0;background: rgba(0, 0, 0, 0.1);  border: 2px groove #eeede0;" class="timer_stop' + id + '">Stop</button><button style="font-size: 12px;height: 24px;line-height: 20px;margin: 2px 0;background: rgba(0, 0, 0, 0.1);  border: 2px groove #eeede0;" class="timer_delete' + id + '">Delete</button>';
+  text += "</div>";
   return text;
 }
