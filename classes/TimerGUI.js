@@ -53,14 +53,16 @@ export class TimerGUI extends FormApplication {
 
   static addButton() {
     Hooks.on("getSceneControlButtons", (data) => {
-      data[0].tools.push({
+      const order = data.notes.tools.length;
+      data.notes.tools["module-timer"] = {
         name: "module-timer",
         title: "Timer",
         icon: "fas fa-clock",
+        order: order,
         button: true,
         onClick: () => new TimerGUI().render(true),
         visible: game.user.isGM || game.user.isTrusted
-      })
+      }
     });
   }
 }

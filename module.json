@@ -9,7 +9,7 @@
   "version": "0.2.6",
   "compatibility": {
     "minimum": 9,
-    "verified": "12.329"
+    "verified": 13
   },
   "socket": true,
   "esmodules": [
