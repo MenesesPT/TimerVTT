@@ -17,7 +17,7 @@ Hooks.on("init", async () => {
 
 Hooks.on("setup", async () => {
   //preload sound
-  AudioHelper.play({ src: "./modules/timer/audio/end.wav", autoplay: false }, true);
+  foundry.audio.AudioHelper.play({ src: "./modules/timer/audio/end.wav", autoplay: false }, true);
 });
 
 export function TimerFunctions() {

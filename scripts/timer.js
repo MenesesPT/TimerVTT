@@ -43,7 +43,7 @@ export async function createStopwatch(description = "", tickSound = false, perso
     msg.content = stopwatchText(msg.timer, msg.description, msg.id);
 
     if (tickSound === true) {
-      AudioHelper.play({
+      foundry.audio.AudioHelper.play({
         src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
         volume: 1.0, autoplay: true, loop: false
       }, personal == false || personal == 'sound');
@@ -97,7 +97,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
     msg.content = timerText(msg.timer, msg.description, msg.id);
 
     if (tickSound === true || Number.isInteger(tickSound) && msg.timer <= tickSound && msg.timer > 0) {
-      AudioHelper.play({
+      foundry.audio.AudioHelper.play({
         src: "./modules/timer/audio/tick" + ((msg.timer + 1) % 2 + 1) + ".wav",
         volume: 1.0, autoplay: true, loop: false
       }, personal == false || personal == 'sound');
@@ -106,7 +106,7 @@ export async function createTimer(duration, description = "", tickSound = true, 
     if (msg.timer <= 0) {
       clearInterval(interval);
       if (endSound)
-        AudioHelper.play({ src: "./modules/timer/audio/end.wav", volume: 0.7, autoplay: true, loop: false }, personal == false || personal == 'sound');
+        foundry.audio.AudioHelper.play({ src: "./modules/timer/audio/end.wav", volume: 0.7, autoplay: true, loop: false }, personal == false || personal == 'sound');
       timerExpiredNotification(msg.description);
       if (timerExpireMessage.length) {
         let expireMessage = { content: timerExpireMessage };
